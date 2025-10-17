@@ -1,13 +1,13 @@
-package weonhyeok.weonhyeok;
+package spring_study.spring_study;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WeonhyeokApplication {
+public class SpringStudyApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WeonhyeokApplication.class, args);
+		SpringApplication.run(SpringStudyApplication.class, args);
 	}
 
 }
