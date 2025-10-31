@@ -19,7 +19,10 @@ public class Post {
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
+
+    @Enumerated(EnumType.STRING)
     private Status status;
+
     private Instant createdAt;
 
 
