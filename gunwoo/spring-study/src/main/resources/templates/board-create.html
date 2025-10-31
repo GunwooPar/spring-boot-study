@@ -1,0 +1,26 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>게시글 작성</title>
+
+</head>
+<body>
+    <h1>게시글 작성</h1>
+
+    <form action="/board" method="post">
+        <label for="title">제목</label>
+        <input type="text" id="title" name="title" required>
+        <br>
+        <label for="content">내용</label>
+        <textarea id="content" name="content" required></textarea>
+        <br>
+        <label for="userId">작성자 ID</label>
+        <input type="number" id="userId" name="userId" value="1" required>
+        <br>
+        <button type="submit">작성하기</button>
+        <a th:href="@{/board}"><button type="button" class="cancel-btn">취소</button></a>
+    </form>
+</body>
+</html>

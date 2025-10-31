@@ -1,0 +1,30 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>게시글 상세</title>
+
+</head>
+<body>
+    <h1 th:text="${post.title}">제목</h1>
+
+    <div class="meta-info">
+        <span><strong>작성자:</strong> <span th:text="${post.user.username}"></span></span>
+        <span><strong>작성일:</strong> <span th:text="${post.createdAt}"></span></span>
+        <span><strong>상태:</strong> <span th:text="${post.status}"></span></span>
+    </div>
+
+    <div class="content" th:text="${post.content}">
+        내용
+    </div>
+
+    <div class="button-group">
+        <a th:href="@{/board}" class="button list-btn">목록으로</a>
+        <a th:href="@{/board/{id}/edit(id=${post.id})}" class="button edit-btn">수정</a>
+        <form th:action="@{/board/{id}/delete(id=${post.id})}" method="post" style="display: inline;">
+            <button type="submit" class="delete-btn" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+        </form>
+    </div>
+</body>
+</html>
