@@ -1,18 +1,22 @@
 package spring_study.spring_study.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.time.Instant;
 
-@Data
+
 @Entity
+@Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@ToString(exclude = {"user"})
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String title;
     private String content;
 
@@ -30,5 +34,7 @@ public class Post {
         DELETED,
         PUBLISHED
     }
+
+
 
 }

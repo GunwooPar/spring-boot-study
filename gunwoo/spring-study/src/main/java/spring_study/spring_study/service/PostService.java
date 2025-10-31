@@ -35,12 +35,13 @@ public class PostService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다: " + userId));
 
-        Post post = new Post();
-        post.setTitle(title);
-        post.setContent(content);
-        post.setUser(user);
-        post.setStatus(Post.Status.PUBLISHED);
-        post.setCreatedAt(Instant.now());
+        Post post = Post.builder()
+            .title(title)
+            .content(content)
+            .user(user)
+            .status(Post.Status.PUBLISHED)
+            .createdAt(Instant.now())
+            .build();
 
         Post savedPost = postRepository.save(post);
         return savedPost.getId();
