@@ -33,6 +33,8 @@ public class MemberService {
 
     @Transactional
     public void delete(Integer id){
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
         memberRepository.deleteById(id);
     }
 
