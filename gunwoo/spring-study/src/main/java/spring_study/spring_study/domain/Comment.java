@@ -2,6 +2,7 @@ package spring_study.spring_study.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import java.time.Instant;
 
@@ -11,6 +12,7 @@ import java.time.Instant;
 @Entity
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Where(clause= "status != 'DELETED")
 public class Comment {
 
     @Id
