@@ -7,7 +7,7 @@ import java.time.Instant;
 
 
 @Entity
-@Getter @Setter
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
@@ -35,6 +35,16 @@ public class Post {
         PUBLISHED
     }
 
+    public void updateTitle(String title) {
+        this.title = title;
+    }
 
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public void delete() {
+        this.status = Status.DELETED;
+    }
 
 }
