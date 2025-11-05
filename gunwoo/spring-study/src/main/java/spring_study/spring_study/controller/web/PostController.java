@@ -37,7 +37,7 @@ public class PostController {
     @GetMapping("/{id}")
     public String boardDetail(@PathVariable Long id, Model model) {
         Post post = postService.getPost(id);
-        List<Comment> comments = commentService.getCommentsByPostId(id);
+        List<Comment> comments = commentService.getAllCommentsByPostId(id);
 
         model.addAttribute("post", post);
         model.addAttribute("comments", comments);
