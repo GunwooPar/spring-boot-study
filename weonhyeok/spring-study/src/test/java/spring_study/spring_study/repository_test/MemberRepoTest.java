@@ -18,14 +18,14 @@ import java.time.LocalDateTime;
 @Transactional
 public class MemberRepoTest {
     @Autowired
-    private MemberRepository memberRepositor;
+    private MemberRepository memberRepository;
 
     /**
      *  test 코드 실행 전 db 초기화
      */
     @AfterEach
     public void clearRepository(){
-        memberRepositor.deleteAllInBatch();
+        memberRepository.deleteAllInBatch();
     }
 
 
@@ -36,9 +36,9 @@ public class MemberRepoTest {
         Member member = new Member("weon","20",LocalDateTime.now());
 
         //when
-        memberRepositor.save(member);
+        memberRepository.save(member);
         //then
-        assertEquals(1, memberRepositor.count());
+        assertEquals(1, memberRepository.count());
     }
 
     @DisplayName("ID 자동증가 테스트")
@@ -50,11 +50,11 @@ public class MemberRepoTest {
         Member createUser2 = new Member("user2", "20", LocalDateTime.now());
 
         //when
-        memberRepositor.save(createUser1);
-        memberRepositor.save(createUser2);
+        memberRepository.save(createUser1);
+        memberRepository.save(createUser2);
 
         //then
-        assertThat(userCount).isEqualTo(memberRepositor.count());
+        assertThat(userCount).isEqualTo(memberRepository.count());
     }
 
 }
