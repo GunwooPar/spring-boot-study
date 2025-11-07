@@ -1,18 +1,24 @@
 package spring_study.spring_study.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.annotations.Where;
 
 import java.time.Instant;
 
-@Data
+
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@ToString(exclude = {"user"})
+@Where(clause= "status != 'DELETED")
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String title;
     private String content;
 
@@ -29,6 +35,18 @@ public class Post {
     public enum Status {
         DELETED,
         PUBLISHED
+    }
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public void delete() {
+        this.status = Status.DELETED;
     }
 
 }
