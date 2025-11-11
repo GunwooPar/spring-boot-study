@@ -49,6 +49,7 @@ public class CommentService {
                 .post(post)
                 .user(user)
                 .createdAt(Instant.now())
+                .status(Comment.Status.PUBLISHED)
                 .build();
 
         Comment savedComment = commentRepository.save(comment);
