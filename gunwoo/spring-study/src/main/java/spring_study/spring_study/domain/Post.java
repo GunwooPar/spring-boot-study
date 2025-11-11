@@ -13,7 +13,7 @@ import java.time.Instant;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @ToString(exclude = {"user"})
-@Where(clause= "status != 'DELETED")
+@Where(clause= "status != 'DELETED'")
 public class Post {
 
     @Id
