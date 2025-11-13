@@ -5,10 +5,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Controller
-public class GlobalExceptionHandler{
-
-    @ExceptionHandler(MemberException.class)
-    public String handleMemberException(MemberException e, Model model) {
+public class GlobalQuestionExceptionHandler {
+    @ExceptionHandler(QuestionException.class)
+    public String handleMemberException(QuestionException e, Model model) {
         model.addAttribute("errorMessage", e.getMessage());
         return "error";
     }
