@@ -23,7 +23,7 @@ public class CommentController {
     public String comments(@PathVariable long postId, Model model) {
         List<Comment> comments = commentService.getAllCommentsByPostId(postId);
         model.addAttribute("comments", comments);
-        return "fragments/comment-list :: commentList";
+        return "fragments/comment-list :: comments-list";
     }
 
     // 댓글 작성
@@ -51,7 +51,7 @@ public class CommentController {
             @RequestParam Long userId,
             Model model
     ) {
-        commentService.updateComment(postId, commentId, content);
+        commentService.updateComment(commentId, userId, content);
         Comment comment = commentService.getCommentByCommentId(commentId);
         model.addAttribute("comment", comment);
         return "fragments/comment-detail :: commentDetail";
@@ -59,14 +59,12 @@ public class CommentController {
 
     // 댓글 삭제는 JSON응답 (삭제시 HTML 필요없음)
     @DeleteMapping("/{commentId}")
-    @ResponseBody   // JSON응답 시 필요
-    // 상태코드 자유자재로 제어하기위해 void 대신 ResponseEntity<Void> 반환
+    @ResponseBody   // JSON응답 시 필요 // 상태코드 자유자재로 제어하기위해 void 대신 ResponseEntity<Void> 반환
     public ResponseEntity<Void> deleteComment(
-            @PathVariable Long postId,
             @PathVariable Long commentId,
             @RequestParam Long userId
     ) {
-        commentService.deleteComment(postId, userId, commentId);
+    commentService.deleteComment(commentId, userId);
         return ResponseEntity.noContent().build();
     }
 }

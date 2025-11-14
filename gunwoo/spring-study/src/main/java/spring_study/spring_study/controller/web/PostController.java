@@ -62,7 +62,7 @@ public class PostController {
     }
 
     // 게시글 수정 처리
-    @PostMapping("/{id}/edit")
+    @PutMapping("/{id}/edit")
     public String boardUpdate(@PathVariable Long id,
                               @RequestParam String title,
                               @RequestParam String content) {
@@ -71,9 +71,9 @@ public class PostController {
     }
 
     // 게시글 삭제 처리
-    @PostMapping("/{id}/delete")
-    public String boardDelete(@PathVariable Long id) {
-        postService.deletePost(id);
+    @DeleteMapping("/{id}/delete")
+    public String boardDelete(@PathVariable Long id, Long userId) {
+        postService.deletePost(id, userId);
         return "redirect:/board";
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import spring_study.spring_study.domain.Comment;
 import spring_study.spring_study.domain.Post;
 import spring_study.spring_study.domain.User;
+import spring_study.spring_study.exception.CommentNotFoundException;
 import spring_study.spring_study.repository.CommentRepository;
 import spring_study.spring_study.repository.PostRepository;
 import spring_study.spring_study.repository.UserRepository;
@@ -31,7 +32,7 @@ public class CommentService {
     // 단일 댓글 조회 
     public Comment getCommentByCommentId(Long commentId) {
         return commentRepository.findById(commentId)
-                .orElseThrow(()-> new IllegalArgumentException("댓글을 찾을 수 없습니다: " + commentId));
+                .orElseThrow(()-> new CommentNotFoundException());
     }
 
     // 댓글 생성
@@ -49,6 +50,7 @@ public class CommentService {
                 .post(post)
                 .user(user)
                 .createdAt(Instant.now())
+                .status(Comment.Status.PUBLISHED)
                 .build();
 
         Comment savedComment = commentRepository.save(comment);
@@ -77,7 +79,7 @@ public class CommentService {
 
     // 댓글 삭제
     @Transactional
-    public void deleteComment(Long commentId, Long postId, Long userId) {
+    public void deleteComment(Long commentId, Long userId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(()-> new IllegalArgumentException("댓글을 찾을 수 없습니다: " + commentId));
 

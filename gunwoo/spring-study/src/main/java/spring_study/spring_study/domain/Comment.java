@@ -12,7 +12,7 @@ import java.time.Instant;
 @Entity
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-@Where(clause= "status != 'DELETED")
+@Where(clause= "status != 'DELETED'")
 public class Comment {
 
     @Id

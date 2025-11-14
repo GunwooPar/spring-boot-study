@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- 단일 댓글 Fragment -->
+<div th:fragment="commentDetail" th:if="${comment != null}" class="comment" th:data-comment-id="${comment.id}">
+    <div class="comment-header">
+        <strong th:text="${comment.user.username}">작성자</strong>
+        <span class="comment-date" th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}">2025-01-01 12:00</span>
+    </div>
+    <div class="comment-content">
+        <p class="comment-text" th:text="${comment.content}">댓글 내용</p>
+    </div>
+    <div class="comment-actions">
+        <button class="edit-btn" th:onclick="|editComment(${comment.id})|">수정</button>
+        <button class="delete-btn" th:onclick="|deleteComment(${comment.post.id}, ${comment.id}, ${comment.user.id})|">삭제</button>
+    </div>
+</div>
+
+</body>
+</html>

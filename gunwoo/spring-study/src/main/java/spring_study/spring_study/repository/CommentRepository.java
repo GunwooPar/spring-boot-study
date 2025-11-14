@@ -6,6 +6,8 @@ import spring_study.spring_study.domain.Comment;
 import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    List<Comment> findByUser_Id(Long userId);
+    List<Comment> findByUserId(Long userId);
+
+    List<Comment> findByPostId(Long postId);
 
 }

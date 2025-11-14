@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- 전체 댓글 목록 Fragment -->
+<div th:fragment="comments-list">
+    <div th:each="comment : ${comments}"
+         th:replace="~{fragments/comment-detail :: commentDetail}"></div>
+</div>
+
+</body>
+</html>
+
+
