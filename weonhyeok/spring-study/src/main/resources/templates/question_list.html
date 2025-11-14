@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>질문 리스트 페이지</title>
+</head>
+<body>
+    <h2>질문 목록</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>제목</th><th>작성일시</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="question, index : ${questionResponseList}">
+                <td>
+                    <!--질문 제목을 누르면 질문 상세 페이지로 이동 (질문 내용을 보여주는 페이지로 이동)-->
+                    <a th:href="@{|/question/detail/${question.id}|}"
+                       th:text="${question.subject}"></a>
+                </td>
+                <td th:text="${question.createDate}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
