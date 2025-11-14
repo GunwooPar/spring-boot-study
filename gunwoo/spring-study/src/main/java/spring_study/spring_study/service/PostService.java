@@ -63,9 +63,14 @@ public class PostService {
 
     // 게시글 삭제
     @Transactional
-    public void deletePost(Long postId) {
+    public void deletePost(Long postId,  Long userId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다: " + postId));
+
+        if (!post.getUser().getId().equals(userId) {
+            throw new IllegalArgumentException("게시글 삭제 권한이 없습니다");
+
+        }
 
         post.delete();
     }
