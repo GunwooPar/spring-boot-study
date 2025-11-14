@@ -1,5 +1,6 @@
 package spring_study.spring_study.repository;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,32 +23,24 @@ class QuestionRepoTest {
     @Autowired
     private QuestionRepository questionRepository;
 
-    @Test
-    void testJpa() {
-        //다른 메서드 확인을 위해 repository 초기화
+    @BeforeEach
+    void setUp(){
         questionRepository.deleteAll();
 
-        //given
         Question testQuestion = Question.builder()
                 .subject("질문 제목")
-                .content("질문은 본문")
+                .content("질문 내용")
                 .createDate(LocalDateTime.now())
                 .build();
-
-        //when
         questionRepository.save(testQuestion);
 
-        //given
         Question testQuestion2 = Question.builder()
-                .subject("질문 2입니다.")
-                .content("테스트 코드 실행중")
-                .createDate(LocalDateTime.of(2000, 1, 1, 1, 1, 1))
+                .subject("질문 제목2")
+                .content("question content")
+                .createDate(LocalDateTime.of(2000,1,1,1,1,1))
                 .build();
-
-        //when
         questionRepository.save(testQuestion2);
     }
-
 
     @Test
     void findAll_테스트() {
@@ -58,7 +51,6 @@ class QuestionRepoTest {
         Question getFirstQuestion = all.getFirst();
         assertEquals("질문 제목", getFirstQuestion.getSubject());
 
-        System.out.println("테스트 성공");
     }
 
     @Test

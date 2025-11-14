@@ -32,7 +32,7 @@ public class QuestionController {
         return "question_list";
     }
 
-    //ID 값만 가져와 id에 해당하는 질문 데이터만 가져오는것이므로 DTO 사용안함.
+    //ID 값 PathVariable로 가져옴
     @GetMapping(value = "/detail/{id}")
     public String detailQuestionPage(Model model, @PathVariable Long id) {
         QuestionResponse question = questionService.getQuestion(id);

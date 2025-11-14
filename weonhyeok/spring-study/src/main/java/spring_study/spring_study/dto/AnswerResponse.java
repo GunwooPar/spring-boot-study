@@ -9,7 +9,7 @@ public record AnswerResponse (
         String content,
         LocalDateTime createDate
 ) {
-    public static AnswerResponse form(Answer answer) {
+    public static AnswerResponse from(Answer answer) {
         return new AnswerResponse(
                 answer.getId(),
                 answer.getContent(),

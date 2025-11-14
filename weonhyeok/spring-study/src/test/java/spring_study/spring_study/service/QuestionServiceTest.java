@@ -1,4 +1,4 @@
-package spring_study.spring_study.serivce;
+package spring_study.spring_study.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import spring_study.spring_study.dto.QuestionResponse;
 import spring_study.spring_study.repository.QuestionRepository;
-import spring_study.spring_study.service.QuestionService;
 
 @SpringBootTest
 @Transactional

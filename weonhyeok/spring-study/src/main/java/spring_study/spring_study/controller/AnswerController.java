@@ -16,7 +16,7 @@ public class AnswerController {
 
     @PostMapping("/create/{id}")
     public String createAnswer(Model model, @PathVariable Long id,
-                               @RequestBody String content) {
+                               @RequestParam String content) {
         QuestionResponse question = questionService.getQuestion(id);
         //TODO: 답변 저장 기능 나중에 구현 예정
         return String.format("redirect:/question/detail/%s", id);
