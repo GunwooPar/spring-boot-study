@@ -72,7 +72,7 @@ public class PostController {
 
     // 게시글 삭제 처리
     @DeleteMapping("/{id}/delete")
-    public String boardDelete(@PathVariable Long id, Long userId) {
+    public String boardDelete(@PathVariable Long id, @RequestParam Long userId) {
         postService.deletePost(id, userId);
         return "redirect:/board";
     }
