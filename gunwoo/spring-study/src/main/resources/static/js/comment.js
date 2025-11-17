@@ -1,6 +1,14 @@
 
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
 // 댓글 업데이트
 async function updateComment(postId, commentId, content, userId) {
+
     // 이 객체는 데이터를 key=value&key2=value2 형식으로 자동으로 변환해줌(@RequestParam이 가장 받기 좋아하는 형식)
     const formData = new URLSearchParams();
     formData.append('content', content);
@@ -38,8 +46,7 @@ async function loadComments(postId) {
     const commentsHtml = await response.text(); // JSON이 아닌 HTML 텍스트
 
     // 받은 HTML을 통째로 삽입
-    document.getElementById('comments-list').innerHTML = commentsHtml;
-
+    document.getElementById('comments-list').innerHTML = commentsHtml; // xss 공격 때문에 textContent대신 innerHTML사용
     // 댓글 개수 업데이트
     updateCommentCount();
 }
@@ -86,6 +93,7 @@ async function deleteComment(postId, commentId, userId) {
 
             // 댓글 개수 업데이트
             updateCommentCount();
+
         } else {
             throw new Error('삭제 실패');
         }
@@ -96,16 +104,19 @@ async function deleteComment(postId, commentId, userId) {
 }
 
 
+
 function editComment(commentId) {
     const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
     const contentElement = commentElement.querySelector('.comment-content');
     const currentContent = contentElement.textContent;
 
+    const escapedcontent = escapeHtml(currentContent);
+
     // 기존 내용을 textarea로 교체
     contentElement.innerHTML = `
-        <textarea class="edit-textarea" rows="3">${currentContent}</textarea>
+        <textarea class="edit-textarea" rows="3">${escapedcontent}</textarea>
         <button onclick="saveEdit(${commentId})">저장</button>
-        <button onclick="cancelEdit(${commentId}, '${currentContent.replace(/'/g, "\\'")}')">취소</button>
+        <button onclick="cancelEdit(${commentId}, '${escapedcontent}')">취소</button>
     `;
 }
 
@@ -126,8 +137,8 @@ async function saveEdit(commentId) {
 
 function cancelEdit(commentId, originalContent) {
     const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
-    const contentElement = commentElement.querySelector('.comment-text');
-    contentElement.innerHTML = `<p>${originalContent}</p>`;
+    const contentElement = commentElement.querySelector('.comment-content');
+    contentElement.innerHTML = `<p class="comment-text" >${escapeHtml(originalContent)}</p>`;
 }
 
 
