@@ -61,6 +61,7 @@ public class CommentController {
     @DeleteMapping("/{commentId}")
     @ResponseBody   // JSON응답 시 필요 // 상태코드 자유자재로 제어하기위해 void 대신 ResponseEntity<Void> 반환
     public ResponseEntity<Void> deleteComment(
+            @PathVariable Long postId,
             @PathVariable Long commentId,
             @RequestParam Long userId
     ) {
