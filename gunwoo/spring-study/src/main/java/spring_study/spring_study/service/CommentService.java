@@ -7,6 +7,9 @@ import spring_study.spring_study.domain.Comment;
 import spring_study.spring_study.domain.Post;
 import spring_study.spring_study.domain.User;
 import spring_study.spring_study.exception.CommentNotFoundException;
+import spring_study.spring_study.exception.ForbiddenException;
+import spring_study.spring_study.exception.PostNotFoundException;
+import spring_study.spring_study.exception.UserNotFoundException;
 import spring_study.spring_study.repository.CommentRepository;
 import spring_study.spring_study.repository.PostRepository;
 import spring_study.spring_study.repository.UserRepository;
@@ -40,10 +43,10 @@ public class CommentService {
     public Long createComment(Long postId,Long userId, String content) {
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다: "+ userId));
+                .orElseThrow(() -> new UserNotFoundException());
 
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("게시판을 찾을 수 없습니다: "+ postId));
+                .orElseThrow(() -> new PostNotFoundException());
 
         Comment comment = Comment.builder()
                 .content(content)
@@ -66,10 +69,10 @@ public class CommentService {
         
         
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException("댓글을 찾을 수 없습니다: " + commentId));
+                .orElseThrow(() -> new CommentNotFoundException());
         
         if (!comment.getUser().getId().equals(userId)) {
-            throw new IllegalArgumentException("댓글 수정 권한이 없습니다");
+            throw new ForbiddenException();
         }
 
         comment.updateContent(content);
@@ -81,10 +84,10 @@ public class CommentService {
     @Transactional
     public void deleteComment(Long commentId, Long userId) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(()-> new IllegalArgumentException("댓글을 찾을 수 없습니다: " + commentId));
+                .orElseThrow(()-> new CommentNotFoundException());
 
         if (!comment.getUser().getId().equals(userId)) {
-            throw new IllegalArgumentException("댓글 삭제 권한이 없습니다");
+            throw new ForbiddenException();
         }
 
 
