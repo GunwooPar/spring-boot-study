@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class GlobalQuestionExceptionHandler {
     @ExceptionHandler(QuestionException.class)
     public String handleQuestionException(QuestionException e, Model model) {
-        log.error("QuestionException 발생 ",e.getMessage(),e);
+        log.error("QuestionException 발생: {}",e.getMessage(),e);
 
         model.addAttribute("errorMessage", e.getMessage());
         model.addAttribute("errorCode",e.getStatus());

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class GlobalAnswerExceptionHandler {
     @ExceptionHandler(AnswerException.class)
     public String handleAnswerException(AnswerException e, Model model) {
-        log.error("AnswerException 발생",e.getMessage(),e);
+        log.error("AnswerException 발생: {}",e.getMessage(),e);
 
         model.addAttribute("errorMessage",e.getMessage());
         model.addAttribute("errorCode",e.getHttpStatus());
