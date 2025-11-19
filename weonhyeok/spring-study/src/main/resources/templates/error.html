@@ -7,6 +7,9 @@
 <body>
 <h2>에러가 발생했습니다 ⚠️</h2>
 <p th:text="${errorMessage}"></p>
+<hr>
+<h3 th:text="${errorCode}"></h3>
+<h3 th:text="${timestamp}"></h3>
 <a th:href="@{/question/list}">질문 리스트 화면으로 돌아가기</a>
 </body>
 </html>
