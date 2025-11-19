@@ -3,16 +3,19 @@ package spring_study.spring_study.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import spring_study.spring_study.domain.Answer;
 import spring_study.spring_study.domain.Question;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @SpringBootTest
+@Transactional
 public class AnswerRepoTest {
     @Autowired
     private QuestionRepository questionRepository;
