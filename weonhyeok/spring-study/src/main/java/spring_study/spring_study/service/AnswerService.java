@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring_study.spring_study.domain.Answer;
 import spring_study.spring_study.domain.Question;
+import spring_study.spring_study.exception.answer_exception.AnswerContentBlankException;
+import spring_study.spring_study.exception.answer_exception.AnswerExceptionMessageEnum;
 import spring_study.spring_study.repository.AnswerRepository;
 
 import java.time.LocalDateTime;
@@ -20,10 +22,21 @@ public class AnswerService {
      * @param content input 태그의 내용
      */
     public void createAnswer(Question question, String content) {
+        checkContent(content);
         Answer answer = new Answer();
         answer.setContent(content);
         answer.setCreateDate(LocalDateTime.now());
         answer.setQuestion(question);
         answerRepository.save(answer);
+    }
+
+    /**
+     * 답변글에 대한 검증 답변내용이 비어있거나 null이면 예외 발생
+     * @param content 답변 내용
+     */
+    public void checkContent(String content) {
+        if (content==null || content.isEmpty()) {
+            throw new AnswerContentBlankException(AnswerExceptionMessageEnum.BLANK_ANSWER_CONTENT_EXCEPTION);
+        }
     }
 }

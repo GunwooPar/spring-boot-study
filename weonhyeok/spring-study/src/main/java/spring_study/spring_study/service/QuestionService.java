@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring_study.spring_study.domain.Question;
 import spring_study.spring_study.dto.QuestionResponse;
-import spring_study.spring_study.exception.ExceptionMessageEnum;
-import spring_study.spring_study.exception.QuestionNotFoundException;
+import spring_study.spring_study.exception.question_exception.QuestionExceptionMessageEnum;
+import spring_study.spring_study.exception.question_exception.QuestionNotFoundException;
 import spring_study.spring_study.repository.QuestionRepository;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public class QuestionService {
             return QuestionResponse.from(getQuestion.get());
         }
 
-        throw new QuestionNotFoundException(ExceptionMessageEnum.NO_DATA_EXCEPTION);
+        throw new QuestionNotFoundException(QuestionExceptionMessageEnum.NO_DATA_EXCEPTION);
     }
 
     /**
@@ -47,6 +47,6 @@ public class QuestionService {
             return getQuestion.get();
         }
 
-        throw new QuestionNotFoundException(ExceptionMessageEnum.NO_DATA_EXCEPTION);
+        throw new QuestionNotFoundException(QuestionExceptionMessageEnum.NO_DATA_EXCEPTION);
     }
 }

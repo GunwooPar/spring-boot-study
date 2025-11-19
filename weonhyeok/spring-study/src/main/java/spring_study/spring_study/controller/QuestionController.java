@@ -40,6 +40,7 @@ public class QuestionController {
         return "question_detail";
     }
 
+    //todo 다음주 질문 생성에 대한 서비스, 컨트롤러, html 페이지 구현
     @GetMapping("/create-question")
     public String createQuestion() {
         return "question_create";
