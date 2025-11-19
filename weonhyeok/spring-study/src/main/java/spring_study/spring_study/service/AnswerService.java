@@ -35,7 +35,7 @@ public class AnswerService {
      * @param content 답변 내용
      */
     public void checkContent(String content) {
-        if (content==null || content.isEmpty()) {
+        if (content==null || content.isBlank()) {
             throw new AnswerContentBlankException(AnswerExceptionMessageEnum.BLANK_ANSWER_CONTENT_EXCEPTION);
         }
     }
