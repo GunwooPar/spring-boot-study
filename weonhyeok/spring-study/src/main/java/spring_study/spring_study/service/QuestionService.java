@@ -29,10 +29,22 @@ public class QuestionService {
      * @param id 찾을 질문 ID
      * @return DB에 존재하는 ID이면 QuestionResponse DTO return  / 없다면 사용자 예외 발생
      */
-    public QuestionResponse getQuestion(Long id) {
+    public QuestionResponse getQuestionDto(Long id) {
         Optional<Question> getQuestion = questionRepository.findById(id);
         if(getQuestion.isPresent()) {
             return QuestionResponse.from(getQuestion.get());
+        }
+
+        throw new QuestionNotFoundException(ExceptionMessageEnum.NO_DATA_EXCEPTION);
+    }
+
+    /**
+     * 의존역전 문제로 인해 getQuestion 만들었다. dto가 아닌 그냥 도메인을 넘긴다.
+     */
+    public Question getQuestion(Long id) {
+        Optional<Question> getQuestion = questionRepository.findById(id);
+        if(getQuestion.isPresent()) {
+            return getQuestion.get();
         }
 
         throw new QuestionNotFoundException(ExceptionMessageEnum.NO_DATA_EXCEPTION);
