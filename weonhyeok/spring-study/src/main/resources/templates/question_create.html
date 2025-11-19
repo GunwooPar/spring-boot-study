@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>질문등록페이지</title>
+</head>
+<body>
+<h4>질문등록</h4>
+<form th:action="@{/create-question}" method="post">
+  <label for="subject"><h5>제목</h5></label>
+  <input type="text" name="subject" id="subject">
+  <label for="content"><h5>내용</h5></label>
+  <textarea name="content" id="content"></textarea>
+</form>
+</body>
+</html>
