@@ -1,19 +1,23 @@
 package com.example.firstproject.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.ToString;
 
+
+import java.time.LocalDateTime;
+
+@ToString
 @Entity //DB 속 테이블 생성
 public class Article { //테이블 이름
     @Id // 엔티티의 대표값 지정
-    @GeneratedValue // 자동생성기능 추가(숫자가 자동으로 매겨짐)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private final Long id; //final 초기값=최종적인 값
+
     @Column // title 필드 선언, DB 테이블의 title 열과 연결
-    private String title;
+    private final String title;
+
     @Column
-    private String content;
+    private final String content;
 
     //Article 생성자 추가
     public Article(Long id, String title, String content) {
@@ -22,13 +26,4 @@ public class Article { //테이블 이름
         this.content = content;
     }
 
-    //toSting() 메서드 추가
-    @Override
-    public String toString() {
-        return "Article{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                '}';
-    }
 }
