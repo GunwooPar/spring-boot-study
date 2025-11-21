@@ -24,7 +24,8 @@ async function updateComment(postId, commentId, content, userId) {
     );
 
     if (!response.ok) {
-        throw new Error('수정 실패');
+        const error = await response.json();
+        throw new Error(error.message);
     }
 
     const updatedCommentHtml = await response.text(); // 수정된 댓글 HTML 받음
@@ -46,7 +47,12 @@ async function loadComments(postId) {
     const commentsHtml = await response.text(); // JSON이 아닌 HTML 텍스트
 
     // 받은 HTML을 통째로 삽입
-    document.getElementById('comments-list').innerHTML = commentsHtml; // xss 공격 때문에 textContent대신 innerHTML사용
+    /*
+        textContent (안전): 스크립트 태그(<script>)를 실행하지 않고 그냥 글자로 보여줍니다. (XSS 자동 방어)
+        innerHTML (위험): 스크립트 태그를 실행해 버립니다. (XSS 취약)
+    */
+    document.getElementById('comments-list').innerHTML = commentsHtml; // escapeHtml함수로 innerHTML 취약성 보완
+
     // 댓글 개수 업데이트
     updateCommentCount();
 }
@@ -62,6 +68,11 @@ async function createComment(postId, content, userId) {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: formData
     });
+
+    if(!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+    }
 
     const newCommentHtml = await response.text(); // 새 댓글 HTML만 받음
 

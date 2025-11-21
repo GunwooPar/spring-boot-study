@@ -14,4 +14,11 @@ public record ErrorResponse (
 
         );
     }
+
+    public static ErrorResponse of(@NonNull ErrorCode errorCode, @NonNull String detailMessage) {
+        return new ErrorResponse(
+                errorCode.getHttpStatus().value(),
+                detailMessage
+        );
+    }
 }
