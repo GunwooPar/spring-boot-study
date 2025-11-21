@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import spring_study.spring_study.domain.Post;
 import spring_study.spring_study.domain.User;
+import spring_study.spring_study.exception.ForbiddenException;
 import spring_study.spring_study.exception.PostNotFoundException;
 import spring_study.spring_study.repository.PostRepository;
 import spring_study.spring_study.repository.UserRepository;
@@ -69,7 +70,7 @@ public class PostService {
                 .orElseThrow(PostNotFoundException::new);
 
         if (!post.getUser().getId().equals(userId)) {
-            throw new IllegalArgumentException("게시글 삭제 권한이 없습니다");
+            throw new ForbiddenException();
 
         }
 
