@@ -1,6 +1,14 @@
 
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
 // 댓글 업데이트
 async function updateComment(postId, commentId, content, userId) {
+
     // 이 객체는 데이터를 key=value&key2=value2 형식으로 자동으로 변환해줌(@RequestParam이 가장 받기 좋아하는 형식)
     const formData = new URLSearchParams();
     formData.append('content', content);
@@ -16,7 +24,8 @@ async function updateComment(postId, commentId, content, userId) {
     );
 
     if (!response.ok) {
-        throw new Error('수정 실패');
+        const error = await response.json();
+        throw new Error(error.message);
     }
 
     const updatedCommentHtml = await response.text(); // 수정된 댓글 HTML 받음
@@ -38,7 +47,11 @@ async function loadComments(postId) {
     const commentsHtml = await response.text(); // JSON이 아닌 HTML 텍스트
 
     // 받은 HTML을 통째로 삽입
-    document.getElementById('comments-list').innerHTML = commentsHtml;
+    /*
+        textContent (안전): 스크립트 태그(<script>)를 실행하지 않고 그냥 글자로 보여줍니다. (XSS 자동 방어)
+        innerHTML (위험): 스크립트 태그를 실행해 버립니다. (XSS 취약)
+    */
+    document.getElementById('comments-list').innerHTML = commentsHtml; // escapeHtml함수로 innerHTML 취약성 보완
 
     // 댓글 개수 업데이트
     updateCommentCount();
@@ -55,6 +68,11 @@ async function createComment(postId, content, userId) {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: formData
     });
+
+    if(!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+    }
 
     const newCommentHtml = await response.text(); // 새 댓글 HTML만 받음
 
@@ -86,6 +104,7 @@ async function deleteComment(postId, commentId, userId) {
 
             // 댓글 개수 업데이트
             updateCommentCount();
+
         } else {
             throw new Error('삭제 실패');
         }
@@ -96,16 +115,19 @@ async function deleteComment(postId, commentId, userId) {
 }
 
 
+
 function editComment(commentId) {
     const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
     const contentElement = commentElement.querySelector('.comment-content');
     const currentContent = contentElement.textContent;
 
+    const escapedcontent = escapeHtml(currentContent);
+
     // 기존 내용을 textarea로 교체
     contentElement.innerHTML = `
-        <textarea class="edit-textarea" rows="3">${currentContent}</textarea>
+        <textarea class="edit-textarea" rows="3">${escapedcontent}</textarea>
         <button onclick="saveEdit(${commentId})">저장</button>
-        <button onclick="cancelEdit(${commentId}, '${currentContent.replace(/'/g, "\\'")}')">취소</button>
+        <button onclick="cancelEdit(${commentId}, '${escapedcontent}')">취소</button>
     `;
 }
 
@@ -126,8 +148,8 @@ async function saveEdit(commentId) {
 
 function cancelEdit(commentId, originalContent) {
     const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
-    const contentElement = commentElement.querySelector('.comment-text');
-    contentElement.innerHTML = `<p>${originalContent}</p>`;
+    const contentElement = commentElement.querySelector('.comment-content');
+    contentElement.innerHTML = `<p class="comment-text" >${escapeHtml(originalContent)}</p>`;
 }
 
 

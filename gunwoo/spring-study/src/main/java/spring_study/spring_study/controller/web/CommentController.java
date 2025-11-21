@@ -1,12 +1,14 @@
 package spring_study.spring_study.controller.web;
 
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import spring_study.spring_study.domain.Comment;
+import spring_study.spring_study.dto.crud.request.CommentCreateRequest;
 import spring_study.spring_study.service.CommentService;
 
 import java.util.List;
@@ -30,12 +32,16 @@ public class CommentController {
     @PostMapping
     public String createComment(
             @PathVariable Long postId,
-            @RequestParam Long userId,
-            @RequestParam String content,
+            @Valid @ModelAttribute CommentCreateRequest request,
             Model model
     ) {
 
-        Long commentId = commentService.createComment(postId, userId, content);
+        // BindException 발생 시 GlobalExceptionHandler가 처리
+        Long commentId = commentService.createComment(
+                postId,
+                request.userId(),
+                request.content()
+                );
         Comment comment = commentService.getCommentByCommentId(commentId);
         model.addAttribute("comment", comment);
 
@@ -61,6 +67,7 @@ public class CommentController {
     @DeleteMapping("/{commentId}")
     @ResponseBody   // JSON응답 시 필요 // 상태코드 자유자재로 제어하기위해 void 대신 ResponseEntity<Void> 반환
     public ResponseEntity<Void> deleteComment(
+            @PathVariable Long postId,
             @PathVariable Long commentId,
             @RequestParam Long userId
     ) {

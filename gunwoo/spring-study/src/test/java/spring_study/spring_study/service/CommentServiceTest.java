@@ -11,10 +11,9 @@ import spring_study.spring_study.exception.CommentNotFoundException;
 import spring_study.spring_study.repository.CommentRepository;
 import spring_study.spring_study.repository.PostRepository;
 import spring_study.spring_study.repository.UserRepository;
-
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -44,7 +43,7 @@ class CommentServiceTest {
                 .willReturn(Optional.empty());
 
         // when
-        Assertions.assertThatThrownBy(() -> commentService.getCommentByCommentId(commentId))
+        assertThatThrownBy(() -> commentService.getCommentByCommentId(commentId))
                 .isInstanceOf(CommentNotFoundException.class);
         // then
         then(commentRepository).should().findById(commentId);

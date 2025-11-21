@@ -7,10 +7,10 @@ import org.hibernate.annotations.Where;
 import java.time.Instant;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"post", "user"}) // ToString은 연관관계 필드 반드시 제거해야함
 @Entity
 @Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)  // PROTECTED로 설정해 JPA에게는 허용하되, 개발자의 직접 호출 막음
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Where(clause= "status != 'DELETED'")
 public class Comment {

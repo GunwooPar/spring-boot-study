@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import spring_study.spring_study.domain.Post;
 import spring_study.spring_study.domain.User;
+import spring_study.spring_study.exception.ForbiddenException;
+import spring_study.spring_study.exception.PostNotFoundException;
 import spring_study.spring_study.repository.PostRepository;
 import spring_study.spring_study.repository.UserRepository;
 
@@ -27,7 +29,7 @@ public class PostService {
     // 게시글 상세 조회
     public Post getPost(Long postId) {
         return postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다: " + postId));
+                .orElseThrow(PostNotFoundException::new);
     }
 
     // 게시글 생성
@@ -53,7 +55,7 @@ public class PostService {
     @Transactional
     public void updatePost(Long postId, String title, String content) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다: " + postId));
+                .orElseThrow(PostNotFoundException::new);
 
         post.updateTitle(title);
         post.updateContent(content);
@@ -65,10 +67,10 @@ public class PostService {
     @Transactional
     public void deletePost(Long postId,  Long userId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다: " + postId));
+                .orElseThrow(PostNotFoundException::new);
 
         if (!post.getUser().getId().equals(userId)) {
-            throw new IllegalArgumentException("게시글 삭제 권한이 없습니다");
+            throw new ForbiddenException();
 
         }
 
