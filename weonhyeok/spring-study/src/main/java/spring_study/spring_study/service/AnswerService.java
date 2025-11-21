@@ -2,6 +2,7 @@ package spring_study.spring_study.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import spring_study.spring_study.domain.Answer;
 import spring_study.spring_study.domain.Question;
 import spring_study.spring_study.exception.answer_exception.AnswerContentBlankException;
@@ -21,6 +22,7 @@ public class AnswerService {
      * @param question 답변 달릴 질문글에 대한 객체
      * @param content input 태그의 내용
      */
+    @Transactional
     public void createAnswer(Question question, String content) {
         checkContent(content);
         Answer answer = new Answer();
