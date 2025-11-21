@@ -35,7 +35,7 @@ public class CommentService {
     // 단일 댓글 조회 
     public Comment getCommentByCommentId(Long commentId) {
         return commentRepository.findById(commentId)
-                .orElseThrow(()-> new CommentNotFoundException());
+                .orElseThrow(CommentNotFoundException::new);
     }
 
     // 댓글 생성
@@ -43,10 +43,10 @@ public class CommentService {
     public Long createComment(Long postId,Long userId, String content) {
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException());
+                .orElseThrow(UserNotFoundException::new);
 
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new PostNotFoundException());
+                .orElseThrow(PostNotFoundException::new);
 
         Comment comment = Comment.builder()
                 .content(content)
@@ -69,7 +69,7 @@ public class CommentService {
         
         
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new CommentNotFoundException());
+                .orElseThrow(CommentNotFoundException::new);
         
         if (!comment.getUser().getId().equals(userId)) {
             throw new ForbiddenException();
@@ -84,7 +84,7 @@ public class CommentService {
     @Transactional
     public void deleteComment(Long commentId, Long userId) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(()-> new CommentNotFoundException());
+                .orElseThrow(CommentNotFoundException::new);
 
         if (!comment.getUser().getId().equals(userId)) {
             throw new ForbiddenException();
