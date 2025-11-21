@@ -23,7 +23,7 @@ public class QuestionServiceTest {
         final Long id = 999L;
 
         //when
-        QuestionResponse question = questionService.getQuestion(id);
+        QuestionResponse question = questionService.getQuestionDto(id);
 
         //then
     }

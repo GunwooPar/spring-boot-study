@@ -1,4 +1,4 @@
-package spring_study.spring_study.exception;
+package spring_study.spring_study.exception.question_exception;
 
 import org.springframework.http.HttpStatus;
 
