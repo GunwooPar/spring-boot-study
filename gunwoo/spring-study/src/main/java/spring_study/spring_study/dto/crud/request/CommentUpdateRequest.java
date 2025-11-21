@@ -6,8 +6,11 @@ import jakarta.validation.constraints.Size;
 
 public record CommentUpdateRequest(
 
+    @NotNull
     Long postId,
 
+    @NotBlank
+    @Size(max = 500)
     String content
 
 ) {
