@@ -53,9 +53,13 @@ public class PostService {
 
     // 게시글 수정
     @Transactional
-    public void updatePost(Long postId, String title, String content) {
+    public void updatePost(Long postId, String title, String content,  Long userId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFoundException::new);
+
+        if (!post.getUser().getId().equals(userId)) {
+            throw new ForbiddenException();
+        }
 
         post.updateTitle(title);
         post.updateContent(content);
