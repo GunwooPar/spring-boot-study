@@ -25,7 +25,7 @@ public class User {
 
     private Instant createdAt;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)  // JPA(DB)를 위한 것이지, Java 언어를 위한 것이 아님(DB에 저장할 때만 작동)
     private Role role;
 
     @Builder
