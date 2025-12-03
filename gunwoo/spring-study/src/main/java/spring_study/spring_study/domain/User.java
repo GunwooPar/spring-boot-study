@@ -10,19 +10,30 @@ import java.time.Instant;
 @Table(name = "users") // H2 DB 예약어에 user있어서 users로 변경
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
+@ToString(exclude = "password") // 비밀번호는 로그에 노출되지 않도록
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String username;
+
+    @Column(nullable = false)
+    private String password;
+
     private Instant createdAt;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Builder
+    public User(String username, String password, Role role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
 
 
     public enum Role {
