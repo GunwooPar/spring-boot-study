@@ -1,5 +1,6 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,47 +8,57 @@
     <script src="/js/comment.js"></script>
 </head>
 <body>
-    <h1 th:text="${post.title}">제목</h1>
+<!-- 🆕 로그인 사용자 정보 표시 -->
+<div sec:authorize="isAuthenticated()">
+    안녕하세요, <span sec:authentication="principal.user.username">사용자</span>님!
+    <form th:action="@{/logout}" method="post" style="display: inline;">
+        <button type="submit">로그아웃</button>
+    </form>
+</div>
 
-    <div class="meta-info">
-        <span><strong>작성자:</strong> <span th:text="${post.user.username}"></span></span>
-        <br>
-        <span><strong>작성일:</strong> <span th:text="${post.createdAt}"></span></span>
-        <br>
-        <span><strong>상태:</strong> <span th:text="${post.status}"></span></span>
-    </div>
-    <strong>내용</strong>
+<h1 th:text="${post.title}">제목</h1>
+
+<div class="meta-info">
+    <span><strong>작성자:</strong> <span th:text="${post.user.username}"></span></span>
     <br>
-    <div class="content" th:text="${post.content}"></div>
+    <span><strong>작성일:</strong> <span th:text="${post.createdAt}"></span></span>
+    <br>
+    <span><strong>상태:</strong> <span th:text="${post.status}"></span></span>
+</div>
 
-    <!-- 2. 댓글 목록 -->
-    <h3>댓글 (<span id="comment-count" th:text="${comments.size()}">0</span>) </h3>
-    <div id="comments-list">
-        <div th:each="comment : ${comments}" th:replace="~{fragments/comment-detail :: commentDetail}"></div>
-    </div>
+<strong>내용</strong>
+<br>
+<div class="content" th:text="${post.content}"></div>
 
+<!-- 댓글 목록 -->
+<h3>댓글 (<span id="comment-count" th:text="${comments.size()}">0</span>) </h3>
+<div id="comments-list">
+    <div th:each="comment : ${comments}" th:replace="~{fragments/comment-detail :: commentDetail}"></div>
+</div>
 
+<!-- 댓글 작성 폼 -->
+<div id="comment-form-section">
+    <h4>댓글 작성</h4>
+    <form id="comment-form">
+        <textarea id="comment-content" rows="3" placeholder="댓글을 입력하세요" required></textarea>
+        <!-- 🔄 로그인한 사용자 ID로 자동 설정 -->
+        <input type="hidden" id="user-id" th:value="${currentUser.id}">
+        <button type="submit">댓글 작성</button>
+    </form>
+</div>
 
-    <!-- 댓글 작성 폼 -->
-    <div id="comment-form-section">
-        <h4>댓글 작성</h4>
-        <form id="comment-form">
-            <textarea id="comment-content" rows="3" placeholder="댓글을 입력하세요" required></textarea>
-            <input type="hidden" id="user-id" value="1"> <!-- TODO: 로그인 기능 연동 -->
-            <button type="submit">댓글 작성</button>
-        </form>
-    </div>
+<div class="button-group">
+    <a th:href="@{/board}" class="button list-btn">게시글 목록으로</a>
 
-<!--    <form th:if="${comment}"-->
-
-
-    <div class="button-group">
-        <a th:href="@{/board}" class="button list-btn">게시글 목록으로</a>
+    <!-- 🔄 작성자만 수정/삭제 버튼 표시 -->
+    <div th:if="${currentUser.id == post.user.id}">
         <a th:href="@{/board/{id}/edit(id=${post.id})}" class="button edit-btn">게시글 수정</a>
         <form th:action="@{/board/{id}/delete(id=${post.id})}" method="post" style="display: inline;">
             <input type="hidden" name="_method" value="DELETE" />
+            <!-- ✅ userId 파라미터 제거 (컨트롤러에서 자동으로 가져옴) -->
             <button type="submit" class="delete-btn" onclick="return confirm('정말 삭제하시겠습니까?')">게시글 삭제</button>
         </form>
     </div>
+</div>
 </body>
 </html>
