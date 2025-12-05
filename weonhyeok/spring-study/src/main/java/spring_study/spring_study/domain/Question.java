@@ -1,6 +1,7 @@
 package spring_study.spring_study.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,4 +37,10 @@ public class Question {
     // cascade 속성 이용 질문 삭제시 질문에 답변 달았던 답변들도 모두 삭제.
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answerList;
+
+    public Question(String subject, String content) {
+        this.subject = subject;
+        this.content = content;
+        this.createDate = LocalDateTime.now();
+    }
 }
