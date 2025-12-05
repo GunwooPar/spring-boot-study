@@ -46,11 +46,22 @@ public class QuestionController {
         return "question_detail";
     }
 
+    /**
+     * 질문 생성 페이지 GET 요청 Mapping
+     * @param request
+     * @return question_create 페이지로 viewResolver 전송
+     */
     @GetMapping("/new/q")
     public String returnCreateQuestionPage(QuestionRequest request) {
         return "question_create";
     }
 
+    /**
+     * 질문 등록 POST 요청 (입력창에 질문제목, 질문 내용)을 DTO에 매칭
+     * @param newQuestion 질문 등록 요청한 subject, content DTO로 변환
+     * @param bindingResult
+     * @return 질문 리스트 페이지로 리다이렉트
+     */
     @PostMapping("/new/q")
     public String questionCreate(@Valid QuestionRequest newQuestion, BindingResult bindingResult) {
         log.info(String.valueOf(newQuestion));

@@ -49,6 +49,11 @@ public class QuestionService {
         throw new QuestionNotFoundException(QuestionExceptionMessageEnum.NO_DATA_EXCEPTION);
     }
 
+    /**
+     * 새로운 Question 도메인 생성 메서드
+     * @param subject 질문 제목
+     * @param content 질문 내용
+     */
     public void create(String subject, String content) {
         Question question = new Question(subject,content);
         questionRepository.save(question);
