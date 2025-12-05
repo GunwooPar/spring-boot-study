@@ -46,7 +46,11 @@ public class QuestionService {
         if (getQuestion.isPresent()) {
             return getQuestion.get();
         }
-
         throw new QuestionNotFoundException(QuestionExceptionMessageEnum.NO_DATA_EXCEPTION);
+    }
+
+    public void create(String subject, String content) {
+        Question question = new Question(subject,content);
+        questionRepository.save(question);
     }
 }
