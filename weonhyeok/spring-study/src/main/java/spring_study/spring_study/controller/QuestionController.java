@@ -66,7 +66,7 @@ public class QuestionController {
      *                      던진 예외는 thymeleaf에서 받음
      * @return 질문 리스트 페이지로 리다이렉트
      */
-    @PostMapping("/new/q")
+    @PostMapping
     public String questionCreate(@Valid QuestionRequest newQuestion, BindingResult bindingResult) {
         log.info(String.valueOf(newQuestion));
         if (bindingResult.hasErrors()) {
