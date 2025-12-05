@@ -1,10 +1,15 @@
 package spring_study.spring_study.controller;
 
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import spring_study.spring_study.dto.QuestionRequest;
 import spring_study.spring_study.dto.QuestionResponse;
 import spring_study.spring_study.service.QuestionService;
 
@@ -12,6 +17,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/question")
+@Slf4j
 public class QuestionController {
     private final QuestionService questionService;
 
@@ -20,7 +26,7 @@ public class QuestionController {
     }
 
     //localhost:8080/question 들어갈 시 질문 목록 페이지
-    @GetMapping({"","/"})
+    @GetMapping({"", "/"})
     public String home() {
         return "redirect:/question/list";
     }
@@ -28,7 +34,7 @@ public class QuestionController {
     @GetMapping("/list")
     public String questionList(Model model) {
         List<QuestionResponse> questionList = questionService.getQuestionList();
-        model.addAttribute("questionResponseList",questionList);
+        model.addAttribute("questionResponseList", questionList);
         return "question_list";
     }
 
@@ -36,13 +42,23 @@ public class QuestionController {
     @GetMapping(value = "/detail/{id}")
     public String detailQuestionPage(Model model, @PathVariable Long id) {
         QuestionResponse question = questionService.getQuestionDto(id);
-        model.addAttribute("question",question);
+        model.addAttribute("question", question);
         return "question_detail";
     }
 
-    //todo 다음주 질문 생성에 대한 서비스, 컨트롤러, html 페이지 구현
-    @GetMapping("/create-question")
-    public String createQuestion() {
+    @GetMapping("/new/q")
+    public String returnCreateQuestionPage(QuestionRequest request) {
         return "question_create";
     }
+
+    @PostMapping("/new/q")
+    public String questionCreate(@Valid QuestionRequest newQuestion, BindingResult bindingResult) {
+        log.info(String.valueOf(newQuestion));
+        if(bindingResult.hasErrors()) {
+            return "question_create";
+        }
+        questionService.create(newQuestion.subject(), newQuestion.content());
+        return "redirect:/question/list";
+    }
+
 }
