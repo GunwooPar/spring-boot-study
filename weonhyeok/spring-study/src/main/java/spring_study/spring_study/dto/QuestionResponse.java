@@ -1,6 +1,5 @@
 package spring_study.spring_study.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import spring_study.spring_study.domain.Question;
 
 import java.time.LocalDateTime;
@@ -16,11 +15,8 @@ import java.util.List;
  */
 public record QuestionResponse (
         Long id,
-        @NotBlank
         String subject,
-        @NotBlank
         String content,
-        @NotBlank
         LocalDateTime createDate,
         List<AnswerResponse> answerList
 ) {
