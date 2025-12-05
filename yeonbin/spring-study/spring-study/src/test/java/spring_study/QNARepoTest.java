@@ -83,6 +83,9 @@ public class QNARepoTest {
 
         List<Answer> allAnswer = this.answerRepository.findAll();
         log.info("DB에 저장된 총 Answer 개수 (setUp 내부 확인): {}", allAnswer.size());
+
+        //객체 동기화, Repository에서는 DB 관리 목적으로 동기화 필요X
+        q.getAnswerList().add(a);
     }
 
     @Test
@@ -94,7 +97,7 @@ public class QNARepoTest {
 
     @Test
     void test2() {
-        /*optional을 사용하지 않으면 매번 null체크해야함
+        /*optional null 참조시 NullPointerException을 방지
         optional은 op.isPresent(), get(), orElse()와 같은 상자관리용 메소드만 가짐
         getSubject()와 같은 데이터를 다루는 메소드X*/
         Optional<Question> oq = this.questionRepository.findById(savedQ1.getId());
@@ -160,9 +163,9 @@ public class QNARepoTest {
 
         List<Answer> answerList = q.getAnswerList();
 
-        //question, answer 연결X
+        //q.getAnswerList().add(a); 추가
         assertNotNull(answerList, "null이 아니어야");
-        log.info("개수: {}", answerList.size());
+        log.info("개수: {}", answerList);
 
         assertEquals(1, answerList.size());
         assertEquals("네 자동으로 생성됩니다.", answerList.get(0).getContent());
