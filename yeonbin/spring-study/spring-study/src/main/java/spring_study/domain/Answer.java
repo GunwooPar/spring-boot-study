@@ -24,7 +24,8 @@ public class Answer {
     private LocalDateTime createDate;
 
     //자식 @joincolumn(name = question_id ) 생략
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "question_id")
     private Question question;
 
     @Builder
