@@ -9,8 +9,6 @@ import spring_study.spring_study.dto.AnswerRequest;
 import spring_study.spring_study.service.AnswerService;
 import spring_study.spring_study.service.QuestionService;
 
-import java.util.Map;
-
 @Controller
 @RequestMapping("/answer")
 @RequiredArgsConstructor
