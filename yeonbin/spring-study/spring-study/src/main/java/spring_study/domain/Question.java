@@ -4,11 +4,14 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 public class Question {
@@ -25,9 +28,8 @@ public class Question {
     private LocalDateTime createDate;
 
     //부모
-    //컬렉션에서 특정 답변 엔티티만 제거해도 해당 답변이 데이터베이스에서 자동으로 삭제
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Answer> answerList;
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    private List<Answer> answerList = new ArrayList<>();
 
     @Builder
     public Question(String subject, String content, LocalDateTime createDate) {
