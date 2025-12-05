@@ -37,7 +37,7 @@
 </div>
 
 <!-- 댓글 작성 폼 -->
-<div id="comment-form-section">
+<div id="comment-form-section" sec:authorize="isAuthenticated()">
     <h4>댓글 작성</h4>
     <form id="comment-form">
         <textarea id="comment-content" rows="3" placeholder="댓글을 입력하세요" required></textarea>
@@ -45,6 +45,9 @@
         <input type="hidden" id="user-id" th:value="${currentUser.id}">
         <button type="submit">댓글 작성</button>
     </form>
+</div>
+<div sec:authorize="!isAuthenticated()">
+    <p>댓글을 작성하려면 <a th:href="@{/login}">로그인</a>해주세요.</p>
 </div>
 
 <div class="button-group">
