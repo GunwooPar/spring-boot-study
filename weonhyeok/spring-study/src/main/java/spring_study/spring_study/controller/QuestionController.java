@@ -48,6 +48,7 @@ public class QuestionController {
 
     /**
      * 질문 생성 페이지 GET 요청 Mapping
+     *
      * @param request
      * @return question_create 페이지로 viewResolver 전송
      */
@@ -59,14 +60,16 @@ public class QuestionController {
     /**
      * 질문 등록 POST 요청 (입력창에 질문제목, 질문 내용)을 DTO에 매칭
      * 데이터 바인딩 검증
-     * @param newQuestion 질문 등록 요청한 subject, content DTO로 변환
-     * @param bindingResult
+     *
+     * @param newQuestion   질문 등록 요청한 subject, content DTO로 변환
+     * @param bindingResult 바인딩 리설트 없을 때 400 Bad Request 예외를 던짐
+     *                      던진 예외는 thymeleaf에서 받음
      * @return 질문 리스트 페이지로 리다이렉트
      */
     @PostMapping("/new/q")
     public String questionCreate(@Valid QuestionRequest newQuestion, BindingResult bindingResult) {
         log.info(String.valueOf(newQuestion));
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "question_create";
         }
         questionService.create(newQuestion.subject(), newQuestion.content());
