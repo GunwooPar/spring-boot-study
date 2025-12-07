@@ -1,11 +1,13 @@
 package spring_study.spring_study.controller.web;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import spring_study.spring_study.domain.Comment;
 import spring_study.spring_study.domain.Post;
+import spring_study.spring_study.security.CustomUserDetails;
 import spring_study.spring_study.service.CommentService;
 import spring_study.spring_study.service.PostService;
 
@@ -65,14 +67,18 @@ public class PostController {
     @PutMapping("/{id}/edit")
     public String boardUpdate(@PathVariable Long id,
                               @RequestParam String title,
-                              @RequestParam String content) {
-        postService.updatePost(id, title, content);
+                              @RequestParam String content,
+                              @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long userId = userDetails.getUser().getId();
+        postService.updatePost(id, title, content, userId;
         return "redirect:/board/" + id;
     }
 
     // 게시글 삭제 처리
     @DeleteMapping("/{id}/delete")
-    public String boardDelete(@PathVariable Long id, @RequestParam Long userId) {
+    public String boardDelete(@PathVariable Long id,
+                              @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long userId = userDetails.getUser().getId();
         postService.deletePost(id, userId);
         return "redirect:/board";
     }
