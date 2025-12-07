@@ -33,7 +33,20 @@
 <!-- 댓글 목록 -->
 <h3>댓글 (<span id="comment-count" th:text="${comments.size()}">0</span>) </h3>
 <div id="comments-list">
-    <div th:each="comment : ${comments}" th:replace="~{fragments/comment-detail :: commentDetail}"></div>
+    <!-- 단순 테스트: Fragment 없이 직접 렌더링 -->
+    <div th:each="comment : ${comments}" class="comment" th:data-comment-id="${comment.id}">
+        <div class="comment-header">
+            <strong th:text="|작성자: ${comment.user.username}|">작성자</strong>
+            <span class="comment-date" th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}">날짜</span>
+        </div>
+        <div class="comment-content">
+            <p class="comment-text" th:text="${comment.content}">댓글 내용</p>
+        </div>
+        <div class="comment-actions">
+            <button class="edit-btn" th:onclick="|editComment(${comment.id})|">수정</button>
+            <button class="delete-btn" th:onclick="|deleteComment(${comment.post.id}, ${comment.id})|">삭제</button>
+        </div>
+    </div>
 </div>
 
 <!-- 댓글 작성 폼 -->
