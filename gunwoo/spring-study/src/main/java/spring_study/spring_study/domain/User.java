@@ -10,7 +10,7 @@ import java.time.Instant;
 @Table(name = "users") // H2 DB 예약어에 user있어서 users로 변경
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
+@ToString(exclude = "password")
 public class User {
 
     @Id
@@ -18,12 +18,22 @@ public class User {
     private Long id;
 
     private String username;
+
+    @Column(unique = true,  nullable = false)
+    public String password;
+
     private Instant createdAt;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
+    @Builder
+    public User(String username, String password, Role role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.createdAt = Instant.now();
+    }
 
     public enum Role {
         USER,
