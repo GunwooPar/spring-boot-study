@@ -3,7 +3,7 @@
 <body>
 
 <!-- 단일 댓글 Fragment -->
-<div th:fragment="commentDetail" th:if="${comment != null}" class="comment" th:data-comment-id="${comment.id}">
+<div th:fragment="commentDetail" class="comment" th:data-comment-id="${comment.id}">
     <div class="comment-header">
         <strong th:text="|작성자: ${comment.user.username}|">작성자</strong>
         <span class="comment-date" th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}">2025-01-01 12:00</span>
