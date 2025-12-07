@@ -2,7 +2,7 @@
 name: Bug report
 about: '프로젝트에서 발생하는 버그 명세 '
 title: ''
-labels: bug
+labels: bug, enhancement
 assignees: ''
 
 ---
@@ -24,3 +24,6 @@ ex) Android 환경에서 어플리케이션 접속 후 로그인 시 에러가 �
 
 ## 🧩 Additional Context  
 기타 참고할 만한 정보나 로그 등이 있다면 작성해주세요.
+
+## 💡 Possible Solution
+가능한 해결책들이 있다면 적어주세요.
