@@ -12,7 +12,7 @@ INSERT INTO post (title, content, user_id, status, created_at) VALUES
                                                                     ('첫 번째 게시글', '안녕하세요!', 1, 'PUBLISHED', CURRENT_TIMESTAMP),
                                                                     ('두 번째 게시글', 'Spring Boot 학습 중입니다.', 2, 'PUBLISHED', CURRENT_TIMESTAMP);
 
--- 댓글 데이터 (기존과 동일)
-INSERT INTO comment (content, post_id, user_id, created_at) VALUES
-                                                                 ('좋은 글 감사합니다!', 1, 2, CURRENT_TIMESTAMP),
-                                                                 ('저도 같이 공부하고 있어요!', 1, 3, CURRENT_TIMESTAMP);
+-- 댓글 데이터
+INSERT INTO comment (content, post_id, user_id, created_at, status) VALUES
+                                                                 ('좋은 글 감사합니다!', 1, 2, CURRENT_TIMESTAMP, 'PUBLISHED'),
+                                                                 ('저도 같이 공부하고 있어요!', 1, 3, CURRENT_TIMESTAMP, 'PUBLISHED');
