@@ -59,9 +59,11 @@ public class CommentController {
             @PathVariable Long postId,
             @PathVariable Long commentId,
             @RequestParam String content,
-            @RequestParam Long userId,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             Model model
     ) {
+        Long userId = userDetails.getUser().getId();
+
         commentService.updateComment(commentId, userId, content);
         Comment comment = commentService.getCommentByCommentId(commentId);
         model.addAttribute("comment", comment);
@@ -74,9 +76,11 @@ public class CommentController {
     public ResponseEntity<Void> deleteComment(
             @PathVariable Long postId,
             @PathVariable Long commentId,
-            @RequestParam Long userId
+            @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
-    commentService.deleteComment(commentId, userId);
+        Long userId = userDetails.getUser().getId();
+
+        commentService.deleteComment(commentId, userId);
         return ResponseEntity.noContent().build();
     }
 }
