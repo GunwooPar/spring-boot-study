@@ -4,11 +4,14 @@ package spring_study.spring_study.controller.web;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import spring_study.spring_study.domain.Comment;
 import spring_study.spring_study.dto.crud.request.CommentCreateRequest;
+import spring_study.spring_study.security.CustomUserDetails;
 import spring_study.spring_study.service.CommentService;
 
 import java.util.List;
@@ -33,13 +36,15 @@ public class CommentController {
     public String createComment(
             @PathVariable Long postId,
             @Valid @ModelAttribute CommentCreateRequest request,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             Model model
     ) {
+        Long userId = userDetails.getUser().getId();
 
         // BindException 발생 시 GlobalExceptionHandler가 처리
         Long commentId = commentService.createComment(
                 postId,
-                request.userId(),
+                userId,
                 request.content()
                 );
         Comment comment = commentService.getCommentByCommentId(commentId);
