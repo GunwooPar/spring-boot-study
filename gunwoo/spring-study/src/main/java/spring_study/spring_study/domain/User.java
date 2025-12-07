@@ -17,10 +17,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true,  nullable = false)
     private String username;
 
-    @Column(unique = true,  nullable = false)
-    public String password;
+    @Column(nullable = false)
+    private String password;
 
     private Instant createdAt;
 
@@ -28,7 +29,7 @@ public class User {
     private Role role;
 
     @Builder
-    public User(String username, String password, Role role) {
+    private User(String username, String password, Role role) {
         this.username = username;
         this.password = password;
         this.role = role;
