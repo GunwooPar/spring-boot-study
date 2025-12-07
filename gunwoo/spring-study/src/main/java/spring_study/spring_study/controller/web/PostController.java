@@ -70,7 +70,7 @@ public class PostController {
                               @RequestParam String content,
                               @AuthenticationPrincipal CustomUserDetails userDetails) {
         Long userId = userDetails.getUser().getId();
-        postService.updatePost(id, title, content, userId;
+        postService.updatePost(id, title, content, userId);
         return "redirect:/board/" + id;
     }
 
