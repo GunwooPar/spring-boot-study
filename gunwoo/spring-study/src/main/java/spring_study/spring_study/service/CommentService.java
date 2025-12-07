@@ -29,7 +29,7 @@ public class CommentService {
 
     // 모든 댓글 조회
     public List<Comment> getAllCommentsByPostId(Long postId) {
-        return commentRepository.findByPostId(postId);
+        return commentRepository.findByPostIdWithUser(postId); // N+1 문제 해결
     }
 
     // 단일 댓글 조회 
