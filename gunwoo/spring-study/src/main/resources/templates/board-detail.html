@@ -41,8 +41,7 @@
     <h4>댓글 작성</h4>
     <form id="comment-form">
         <textarea id="comment-content" rows="3" placeholder="댓글을 입력하세요" required></textarea>
-        <!-- 🔄 로그인한 사용자 ID로 자동 설정 -->
-        <input type="hidden" id="user-id" sec:authentication="principal.user.username">
+        <!-- userId는 서버에서 Spring Security로 자동 추출 -->
         <button type="submit">댓글 작성</button>
     </form>
 </div>

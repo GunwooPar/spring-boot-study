@@ -13,7 +13,7 @@
     </div>
     <div class="comment-actions">
         <button class="edit-btn" th:onclick="|editComment(${comment.id})|">수정</button>
-        <button class="delete-btn" th:onclick="|deleteComment(${comment.post.id}, ${comment.id}, ${comment.user.id})|">삭제</button>
+        <button class="delete-btn" th:onclick="|deleteComment(${comment.post.id}, ${comment.id})|">삭제</button>
     </div>
 </div>
 
