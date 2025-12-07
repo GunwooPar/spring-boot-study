@@ -40,8 +40,10 @@ public class CommentService {
 
     // 댓글 생성
     @Transactional
-    public Long createComment(Long postId, String content) {
+    public Long createComment(Long postId, Long userId, String content) {
 
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
 
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFoundException::new);
@@ -49,6 +51,7 @@ public class CommentService {
         Comment comment = Comment.builder()
                 .content(content)
                 .post(post)
+                .user(user)
                 .createdAt(Instant.now())
                 .status(Comment.Status.PUBLISHED)
                 .build();

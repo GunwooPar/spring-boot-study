@@ -44,6 +44,7 @@ public class CommentController {
         // BindException 발생 시 GlobalExceptionHandler가 처리
         Long commentId = commentService.createComment(
                 postId,
+                userId,
                 request.content()
                 );
         Comment comment = commentService.getCommentByCommentId(commentId);
