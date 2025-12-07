@@ -37,12 +37,16 @@ public class PostController {
 
     // 게시글 상세(댓글 목록도 함께 조회)
     @GetMapping("/{id}")
-    public String boardDetail(@PathVariable Long id, Model model) {
+    public String boardDetail(@PathVariable Long id,
+                              Model model,
+                              @AuthenticationPrincipal CustomUserDetails userDetails) {
+
         Post post = postService.getPost(id);
         List<Comment> comments = commentService.getAllCommentsByPostId(id);
 
         model.addAttribute("post", post);
         model.addAttribute("comments", comments);
+        model.addAttribute("userDetails", userDetails);
         return "board-detail";
     }
 
