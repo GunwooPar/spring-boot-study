@@ -21,21 +21,21 @@ public class QuestionService {
         return questionRepository.findAll()
                 .stream()
                 .map(QuestionResponse::from).toList();
-                // .map(question -> QuestionResponse.from(question)).toList();  축약
+        // .map(question -> QuestionResponse.from(question)).toList();  축약
     }
 
     /**
      * 질문 ID를 DB에서 찾아 질문 상세 데이터 Controller로 넘기기
+     *
      * @param id 찾을 질문 ID
      * @return DB에 존재하는 ID이면 QuestionResponse DTO return  / 없다면 사용자 예외 발생
      */
     public QuestionResponse getQuestionDto(Long id) {
-        Optional<Question> getQuestion = questionRepository.findById(id);
-        if(getQuestion.isPresent()) {
-            return QuestionResponse.from(getQuestion.get());
-        }
-
-        throw new QuestionNotFoundException(QuestionExceptionMessageEnum.NO_DATA_EXCEPTION);
+        return questionRepository.findById(id)
+                .map(QuestionResponse::from)
+                .orElseThrow(()->new QuestionNotFoundException(
+                        QuestionExceptionMessageEnum.NO_DATA_EXCEPTION
+                ));
     }
 
     /**
@@ -43,10 +43,19 @@ public class QuestionService {
      */
     public Question getQuestion(Long id) {
         Optional<Question> getQuestion = questionRepository.findById(id);
-        if(getQuestion.isPresent()) {
+        if (getQuestion.isPresent()) {
             return getQuestion.get();
         }
-
         throw new QuestionNotFoundException(QuestionExceptionMessageEnum.NO_DATA_EXCEPTION);
+    }
+
+    /**
+     * 새로운 Question 도메인 생성 메서드
+     * @param subject 질문 제목
+     * @param content 질문 내용
+     */
+    public void create(String subject, String content) {
+        Question question = new Question(subject,content);
+        questionRepository.save(question);
     }
 }

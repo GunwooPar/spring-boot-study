@@ -41,6 +41,8 @@ public class PostController {
                               Model model,
                               @AuthenticationPrincipal CustomUserDetails userDetails) {
 
+                              @AuthenticationPrincipal CustomUserDetails userDetails,
+                              Model model) {
         Post post = postService.getPost(id);
         List<Comment> comments = commentService.getAllCommentsByPostId(id);
 
@@ -54,7 +56,8 @@ public class PostController {
     @PostMapping
     public String boardCreate(@RequestParam String title,
                               @RequestParam String content,
-                              @RequestParam Long userId) {
+                              @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long userId = userDetails.getUser().getId();
         Long postId = postService.createPost(title, content, userId);
         return "redirect:/board/" + postId; // 중복 제출 방지
     }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
+    // List<User> → Optional<User> 변경 (username은 unique하므로)
     Optional<User> findByUsername(String username);
 
     boolean existsByUsername(String username); // 중복체크
