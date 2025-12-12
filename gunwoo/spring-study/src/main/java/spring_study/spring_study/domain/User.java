@@ -10,14 +10,14 @@ import java.time.Instant;
 @Table(name = "users") // H2 DB 예약어에 user있어서 users로 변경
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(exclude = "password") // 비밀번호는 로그에 노출되지 않도록
+@ToString(exclude = "password")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true,  nullable = false)
     private String username;
 
     @Column(nullable = false)

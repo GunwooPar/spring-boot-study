@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import spring_study.spring_study.domain.User;
 import spring_study.spring_study.repository.UserRepository;
 
@@ -28,7 +29,9 @@ public class AuthController {
 
     @PostMapping("/signup")
     public String signup(@RequestParam String username,
-                         @RequestParam String password) {
+                         @RequestParam String password,
+                         RedirectAttributes redirectAttributes) {
+
 
         // 중복 체크
         if (userRepository.existsByUsername(username)) {
@@ -44,6 +47,9 @@ public class AuthController {
 
         userRepository.save(user);
 
+        redirectAttributes.addAttribute("successMessage", "회원가입이 완료되었습니다.");
+
+        
         return "redirect:/login?signup=success";
     }
 }

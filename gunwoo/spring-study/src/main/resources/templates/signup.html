@@ -44,6 +44,11 @@
 <div class="signup-form">
     <h2>회원가입</h2>
 
+
+    <div class="alert-success" th:if="${successMessage}">
+        회원가입이 완료되었습니다.
+    </div>
+
     <!-- 에러 메시지 -->
     <div th:if="${param.error == 'duplicate'}" class="error">
         이미 존재하는 아이디입니다.
