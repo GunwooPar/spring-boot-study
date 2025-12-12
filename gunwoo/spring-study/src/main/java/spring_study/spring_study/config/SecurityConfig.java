@@ -19,6 +19,7 @@ public class SecurityConfig {
         http
                 // CSRF 설정 (개발 중에는 비활성화 가능, 운영에서는 활성화 권장)
                 .csrf(csrf -> csrf.disable()) // 임시로 비활성화
+
                 // URL별 접근 권한 설정
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/login", "/signup", "/css/**", "/js/**").permitAll() // 누구나 접근 가능
