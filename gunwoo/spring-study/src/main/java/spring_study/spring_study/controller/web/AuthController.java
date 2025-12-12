@@ -31,7 +31,7 @@ public class AuthController {
     public String signup(@RequestParam String username,
                          @RequestParam String password,
                          RedirectAttributes redirectAttributes) {
-                         @RequestParam String password) {
+
 
         // 중복 체크
         if (userRepository.existsByUsername(username)) {
@@ -49,7 +49,7 @@ public class AuthController {
 
         redirectAttributes.addAttribute("successMessage", "회원가입이 완료되었습니다.");
 
-        return "redirect:/login";
+        
         return "redirect:/login?signup=success";
     }
 }
