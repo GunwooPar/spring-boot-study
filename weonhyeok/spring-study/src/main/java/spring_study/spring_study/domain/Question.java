@@ -27,9 +27,11 @@ public class Question {
     private Long id;
 
     @Column(length = 200)
+    @NotBlank
     private String subject;
 
     @Column(columnDefinition = "TEXT")
+    @NotBlank
     private String content;
 
     private LocalDateTime createDate;
@@ -37,10 +39,4 @@ public class Question {
     // cascade 속성 이용 질문 삭제시 질문에 답변 달았던 답변들도 모두 삭제.
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answerList;
-
-    public Question(String subject, String content) {
-        this.subject = subject;
-        this.content = content;
-        this.createDate = LocalDateTime.now();
-    }
 }
