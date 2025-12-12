@@ -2,6 +2,7 @@ package spring_study.domain;
 
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,8 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @Entity
+@Data
+@Table(name = "ANSWER")
 public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +27,7 @@ public class Answer {
     private LocalDateTime createDate;
 
     //자식 @joincolumn(name = question_id ) 생략
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne()
     @JoinColumn(name = "question_id")
     private Question question;
 
