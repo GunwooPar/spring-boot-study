@@ -1,0 +1,10 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<h1 th:text="${question.subject}"></h1>
+<div th:text="${question.content}"></div>
+<!--form태그 사용자 입력을 서버로 전송하기 위한 영역-->
+<form th:action="@{|/answer/create/${question.id}|}" method="post" >
+<!--   textarea 긴 텍스트를 입력할 수 있는 상자-->
+    <textarea name="content" id="content" rows="15"></textarea>
+    <input type="submit" value="답변 등록">
+</form>
+</html>
