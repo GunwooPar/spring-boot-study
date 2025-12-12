@@ -1,6 +1,7 @@
 package spring_study.spring_study.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,7 @@ public class Answer {
     private Long id;
 
     @Column(columnDefinition = "TEXT")
+    @NotBlank
     private String content;
 
     private LocalDateTime createDate;
