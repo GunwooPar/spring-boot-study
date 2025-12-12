@@ -2,15 +2,15 @@ package spring_study.spring_study.controller;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import spring_study.spring_study.dto.QuestionRequest;
-import spring_study.spring_study.dto.QuestionResponse;
+import org.springframework.web.bind.annotation.*;
+import spring_study.spring_study.domain.Question;
+import spring_study.spring_study.dto.AnswerRequestDTO;
+import spring_study.spring_study.dto.QuestionRequestDTO;
+import spring_study.spring_study.dto.QuestionResponseDTO;
 import spring_study.spring_study.service.QuestionService;
 
 import java.util.List;
@@ -32,16 +32,16 @@ public class QuestionController {
     }
 
     @GetMapping("/list")
-    public String questionList(Model model) {
-        List<QuestionResponse> questionList = questionService.getQuestionList();
-        model.addAttribute("questionResponseList", questionList);
+    public String questionList(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+        Page<Question> paging = questionService.getList(page);
+        model.addAttribute("paging", paging);
         return "question_list";
     }
 
     //ID 값 PathVariable로 가져옴
     @GetMapping(value = "/detail/{id}")
-    public String detailQuestionPage(Model model, @PathVariable Long id) {
-        QuestionResponse question = questionService.getQuestionDto(id);
+    public String detailQuestionPage(Model model, @PathVariable Long id, AnswerRequestDTO answerRequestDTO) {
+        QuestionResponseDTO question = questionService.getQuestionDto(id);
         model.addAttribute("question", question);
         return "question_detail";
     }
@@ -52,10 +52,11 @@ public class QuestionController {
      * @param request
      * @return question_create 페이지로 viewResolver 전송
      */
-    @GetMapping("/new/q")
-    public String returnCreateQuestionPage(QuestionRequest request) {
+    @GetMapping("/new")
+    public String returnCreateQuestionPage(QuestionRequestDTO request) {
         return "question_create";
     }
+
 
     /**
      * 질문 등록 POST 요청 (입력창에 질문제목, 질문 내용)을 DTO에 매칭
@@ -67,8 +68,7 @@ public class QuestionController {
      * @return 질문 리스트 페이지로 리다이렉트
      */
     @PostMapping
-    public String questionCreate(@Valid QuestionRequest newQuestion, BindingResult bindingResult) {
-        log.info(String.valueOf(newQuestion));
+    public String questionCreate(@Valid QuestionRequestDTO newQuestion, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "question_create";
         }
