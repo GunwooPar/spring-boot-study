@@ -1,11 +1,13 @@
 package spring_study.spring_study.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import spring_study.spring_study.domain.Question;
-import spring_study.spring_study.dto.AnswerRequest;
+import spring_study.spring_study.dto.AnswerRequestDTO;
 import spring_study.spring_study.service.AnswerService;
 import spring_study.spring_study.service.QuestionService;
 
@@ -25,8 +27,12 @@ public class AnswerController {
      */
     @PostMapping("/create/{id}")
     public String createAnswer(Model model, @PathVariable Long id,
-                               AnswerRequest answerRequest) {
+                               @Valid AnswerRequestDTO answerRequest, BindingResult bindingResult) {
         Question question = questionService.getQuestion(id);
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("question",question);
+            return "question_detail";
+        }
         answerService.createAnswer(question, answerRequest.content());
         return String.format("redirect:/question/detail/%s", id);
     }
