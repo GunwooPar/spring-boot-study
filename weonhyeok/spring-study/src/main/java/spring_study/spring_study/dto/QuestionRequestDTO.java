@@ -8,9 +8,9 @@ import jakarta.validation.constraints.Size;
  * @param subject 질문 제목
  * @param content 질문 내용
  */
-public record QuestionRequest (
+public record QuestionRequestDTO (
         @NotBlank(message = "질문 제목은 필수입니다.")
-        @Size(max=200)
+        @Size(max=500)
         String subject,
         @NotBlank(message = "내용은 필수 입니다.")
         String content
