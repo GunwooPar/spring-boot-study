@@ -10,7 +10,7 @@
 <body>
 <div class="container my-3">
     <h5 class="my-3 border-bottom pb-2">질문 등록</h5>
-    <form th:action="@{/question}" method="post" th:object="${questionRequest}">
+    <form th:action="@{/question}" method="post" th:object="${questionRequestDTO}">
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err: ${#fields.allErrors()}" th:text="${err}"/>
         </div>

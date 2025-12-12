@@ -18,18 +18,44 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="question, loop : ${questionResponseList}">
-                <td th:text="${loop.count}"></td>
+            <tr th:each="question, loop : ${paging}">
+                <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
                 <td>
                     <!--질문 제목을 누르면 질문 상세 페이지로 이동 (질문 내용을 보여주는 페이지로 이동)-->
                     <a th:href="@{|/question/detail/${question.id}|}"
                        th:text="${question.subject}"></a>
+                    <span class="text-danger small ms-2"
+                          th:if="${#lists.size(question.answerList)>0}"
+                          th:text="${#lists.size(question.answerList)}">
+                    </span>
                 </td>
                 <td th:text="${#temporals.format(question.createDate,'yyyy-MM-dd HH:mm')}"></td>
             </tr>
             </tbody>
         </table>
-        <a th:href="@{/question/new/q}" class="btn btn-primary">질문 등록하기</a>
+        <!--페이징-->
+        <div th:if="${!paging.isEmpty()}">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                    <a class="page-link" th:href="@{|?page=${paging.number-1}|}">
+                        <span>이전</span>
+                    </a>
+                </li>
+                <li th:each="page: ${#numbers.sequence(0,paging.totalPages-1)}"
+                    th:if="${page>=paging.number-5 and page<=paging.number+5}"
+                    th:classappend="${page==paging.number} ? 'active'"class="page-item">
+                    <a th:text="${page}" class="page-link"
+                       th:href="@{|?page=${page}|}"></a>
+                </li>
+                <li class="page-item" th:classappend="${!paging.hasNext}?'disabled'">
+                    <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+                        <span>다음</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!--페이징 끝-->
+        <a th:href="@{/question/new}" class="btn btn-primary">질문 등록하기</a>
     </div>
 </th:block>
 </html>
