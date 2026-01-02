@@ -2,6 +2,7 @@ package spring_study.spring_study.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +38,17 @@ public class BoardUserController {
             return "/signup_page";
         }
 
-        userService.create(userRequestDTO.userId(), userRequestDTO.userPassword(), userRequestDTO.userEmail());
+        try {
+            userService.create(userRequestDTO.userId(), userRequestDTO.userPassword(), userRequestDTO.userEmail());
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+            bindingResult.reject("signupFailed","이미 등록된 사용자입니다.");
+            return "signup_page";
+        } catch (Exception e) {
+            e.printStackTrace();
+            bindingResult.reject("signupFailed",e.getMessage());
+            return "signup_page";
+        }
         return "redirect:/";
     }
 }
