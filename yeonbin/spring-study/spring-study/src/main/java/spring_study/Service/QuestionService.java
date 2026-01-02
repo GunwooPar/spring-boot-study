@@ -6,6 +6,7 @@ import spring_study.DataNotFoundException;
 import spring_study.domain.Question;
 import spring_study.repository.QuestionRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,13 +20,25 @@ public class QuestionService {
         return  this.questionRepository.findAll();
     }
 
+    private final String errorMessage = "question not found";
+
     public Question getQuestion(Long id) {
         Optional<Question> question = this.questionRepository.findById(id);
         if (question.isPresent()) {
             return question.get();
         }
         else {
-            throw new DataNotFoundException("question not found");
+            throw new DataNotFoundException(errorMessage);
         }
+    }
+
+    public void create(String subject, String content) {
+        Question q = Question.builder()
+                .subject(subject)
+                .content(content)
+                .createDate(LocalDateTime.now())
+                .build();
+        questionRepository.save(q);
+
     }
 }
