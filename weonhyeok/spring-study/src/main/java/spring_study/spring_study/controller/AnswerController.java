@@ -28,13 +28,14 @@ public class AnswerController {
     @PostMapping("/create/{id}")
     public String createAnswer(Model model, @PathVariable Long id,
                                @Valid AnswerRequestDTO answerRequest, BindingResult bindingResult) {
-        Question question = questionService.getQuestion(id);
         if(bindingResult.hasErrors()) {
-            model.addAttribute("question",question);
+            model.addAttribute("question",questionService.getQuestionDto(id));
             return "question_detail";
         }
+        Question question = questionService.getQuestion(id);
         answerService.createAnswer(question, answerRequest.content());
         return String.format("redirect:/question/detail/%s", id);
     }
+
 
 }
