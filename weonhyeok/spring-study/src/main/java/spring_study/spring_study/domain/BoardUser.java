@@ -9,7 +9,8 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class BoardUser {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
@@ -19,4 +20,8 @@ public class BoardUser {
 
     @Column(unique = true)
     private String userEmail;
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
 }
