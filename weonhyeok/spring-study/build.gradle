@@ -20,8 +20,9 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	
-	//JUnit 테스트
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    //JUnit 테스트
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
@@ -41,6 +42,9 @@ dependencies {
 	//validation 의존성 추가
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+	//스프링 시큐리티
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 }
 
 tasks.named('test') {
