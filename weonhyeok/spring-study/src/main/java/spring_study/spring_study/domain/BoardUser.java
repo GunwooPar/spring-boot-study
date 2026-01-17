@@ -16,6 +16,7 @@ public class BoardUser {
     @Column(unique = true)
     private String userId;
 
+    @Column(nullable = false)
     private String userPassword;
 
     @Column(unique = true)
