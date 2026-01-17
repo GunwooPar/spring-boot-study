@@ -1,7 +1,6 @@
 package spring_study.spring_study.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import spring_study.spring_study.domain.BoardUser;
@@ -22,6 +21,7 @@ public class BoardUserService {
                 .build();
 
         user.setUserPassword(passwordEncoder.encode(userPassword));
+        boardUserRepository.save(user);
         return user;
     }
 
