@@ -19,8 +19,9 @@ public class AnswerService {
     /**
      * 질문 상세 정보 페이지에 존재하는 답변다는 창 textarea 태그의 내용을 이용
      * QuestionResponseDto를 인수로 사용하려 했지만, Answer domain은 dto가 아닌 question domain에 의존하여 dto를 못쓴다.
+     *
      * @param question 답변 달릴 질문글에 대한 객체
-     * @param content input 태그의 내용
+     * @param content  input 태그의 내용
      */
     @Transactional
     public void createAnswer(Question question, String content) {
@@ -34,10 +35,11 @@ public class AnswerService {
 
     /**
      * 답변글에 대한 검증 답변내용이 비어있거나 null이면 예외 발생
+     *
      * @param content 답변 내용
      */
     public void checkContent(String content) {
-        if (content==null || content.isBlank()) {
+        if (content == null || content.isBlank()) {
             throw new AnswerContentBlankException(AnswerExceptionMessageEnum.BLANK_ANSWER_CONTENT_EXCEPTION);
         }
     }

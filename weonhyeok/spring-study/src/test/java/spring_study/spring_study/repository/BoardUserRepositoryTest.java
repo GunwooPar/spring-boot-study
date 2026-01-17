@@ -31,7 +31,7 @@ public class BoardUserRepositoryTest {
         userService.createUser(boardUser);
 
         //then
-        assertEquals(id,userService.getBoardUser(1L).getId());
+        assertEquals(id, userService.getBoardUser(1L).getId());
 
     }
 }

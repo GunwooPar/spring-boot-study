@@ -1,23 +1,28 @@
 package spring_study.spring_study.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import spring_study.spring_study.domain.BoardUser;
 import spring_study.spring_study.repository.BoardUserRepository;
 
-//테스트 코드 돌리기 위해 일단 대충 만들었습니다.
 @Service
 @RequiredArgsConstructor
 public class BoardUserService {
 
     private final BoardUserRepository boardUserRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public void createUser(BoardUser boardUser) {
-        boardUserRepository.save(boardUser);
+    public BoardUser create(String userId, String userPassword, String userEmail) {
+        BoardUser user = BoardUser.builder()
+                .userId(userId)
+                .userPassword(userPassword)
+                .userEmail(userEmail)
+                .build();
+
+        user.setUserPassword(passwordEncoder.encode(userPassword));
+        return user;
     }
 
-    public BoardUser getBoardUser(Long id) {
-        BoardUser byId = boardUserRepository.getReferenceById(id);
-        return  byId;
-    }
 }

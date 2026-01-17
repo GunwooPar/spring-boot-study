@@ -2,6 +2,7 @@ package spring_study.spring_study.controller;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,7 @@ import java.util.List;
 public class QuestionController {
     private final QuestionService questionService;
 
+    @Autowired //생략가능 학습용도로 남겨놓음
     public QuestionController(QuestionService questionService) {
         this.questionService = questionService;
     }
