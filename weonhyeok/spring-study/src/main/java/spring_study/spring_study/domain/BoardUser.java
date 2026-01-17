@@ -22,6 +22,7 @@ public class BoardUser {
     @Column(unique = true)
     private String userEmail;
 
+
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
     }
