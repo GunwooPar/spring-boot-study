@@ -19,7 +19,7 @@ public class AnswerService {
                 .createDate(LocalDateTime.now())
                 .question(question)
                 .build();
-        this.answerRepository.save(answer);
+        answerRepository.save(answer);
 
     }
 }
