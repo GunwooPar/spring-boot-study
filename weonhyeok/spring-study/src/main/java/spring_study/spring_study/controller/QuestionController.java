@@ -14,7 +14,6 @@ import spring_study.spring_study.dto.QuestionRequestDTO;
 import spring_study.spring_study.dto.QuestionResponseDTO;
 import spring_study.spring_study.service.QuestionService;
 
-import java.util.List;
 
 @Controller
 @RequestMapping("/question")

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import spring_study.spring_study.domain.Answer;
+import spring_study.spring_study.domain.BoardUser;
 import spring_study.spring_study.domain.Question;
 import spring_study.spring_study.exception.answer_exception.AnswerContentBlankException;
 import spring_study.spring_study.exception.answer_exception.AnswerExceptionMessageEnum;
@@ -24,12 +25,13 @@ public class AnswerService {
      * @param content  input 태그의 내용
      */
     @Transactional
-    public void createAnswer(Question question, String content) {
+    public void createAnswer(Question question, String content, BoardUser author) {
         checkContent(content);
         Answer answer = new Answer();
         answer.setContent(content);
         answer.setCreateDate(LocalDateTime.now());
         answer.setQuestion(question);
+        answer.setAuthor(author);
         answerRepository.save(answer);
     }
 

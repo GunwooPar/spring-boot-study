@@ -36,6 +36,9 @@ public class Question {
 
     private LocalDateTime createDate;
 
+    @ManyToOne
+    private BoardUser author;
+
     // cascade 속성 이용 질문 삭제시 질문에 답변 달았던 답변들도 모두 삭제.
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answerList;

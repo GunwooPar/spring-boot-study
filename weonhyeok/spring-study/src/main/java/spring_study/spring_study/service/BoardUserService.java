@@ -1,11 +1,13 @@
 package spring_study.spring_study.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import spring_study.spring_study.domain.BoardUser;
+import spring_study.spring_study.exception.user_exception.UserNotFoundException;
 import spring_study.spring_study.repository.BoardUserRepository;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +24,18 @@ public class BoardUserService {
                 .build();
 
         user.setUserPassword(passwordEncoder.encode(userPassword));
+        boardUserRepository.save(user);
         return user;
+    }
+
+    public BoardUser getUser(String userId) {
+        Optional<BoardUser> siteUser = boardUserRepository.findByUserId(userId);
+
+        if(siteUser.isPresent()) {
+            return siteUser.get();
+        }else {
+            throw new UserNotFoundException("site user not found");
+        }
     }
 
 }

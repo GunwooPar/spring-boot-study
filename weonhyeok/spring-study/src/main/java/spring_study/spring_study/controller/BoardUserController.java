@@ -49,6 +49,11 @@ public class BoardUserController {
             bindingResult.reject("signupFailed",e.getMessage());
             return "signup_page";
         }
-        return "redirect:/";
+        return "redirect:/question";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login_form";
     }
 }

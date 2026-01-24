@@ -30,4 +30,7 @@ public class Answer {
     // 부모 엔티티: Question  자식 엔티티: Answer
     @ManyToOne
     private Question question;
+
+    @ManyToOne
+    private BoardUser author;
 }
