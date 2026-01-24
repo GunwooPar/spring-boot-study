@@ -33,7 +33,21 @@
 <!-- 댓글 목록 -->
 <h3>댓글 (<span id="comment-count" th:text="${comments.size()}">0</span>) </h3>
 <div id="comments-list">
-    <div th:each="comment : ${comments}" th:replace="~{fragments/comment-detail :: commentDetail}"></div>
+    <!-- 단순 테스트: Fragment 없이 직접 렌더링 -->
+    <div th:each="comment : ${comments}" class="comment" th:data-comment-id="${comment.id}">
+        <div class="comment-header">
+            <strong th:text="|작성자: ${comment.user.username}|">작성자</strong>
+            <span class="comment-date" th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}">날짜</span>
+        </div>
+        <div class="comment-content">
+            <p class="comment-text" th:text="${comment.content}">댓글 내용</p>
+        </div>
+        <div class="comment-actions">
+            <button class="edit-btn" th:onclick="|editComment(${comment.id})|">수정</button>
+            <button class="delete-btn" th:onclick="|deleteComment(${comment.post.id}, ${comment.id})|">삭제</button>
+        </div>
+    </div>
+</div>
 </div>
 
 <!-- 댓글 작성 폼 -->
@@ -41,8 +55,7 @@
     <h4>댓글 작성</h4>
     <form id="comment-form">
         <textarea id="comment-content" rows="3" placeholder="댓글을 입력하세요" required></textarea>
-        <!-- 🔄 로그인한 사용자 ID로 자동 설정 -->
-        <input type="hidden" id="user-id" th:value="${currentUser.id}">
+        <!-- userId는 서버에서 Spring Security로 자동 추출 -->
         <button type="submit">댓글 작성</button>
     </form>
 </div>
@@ -50,11 +63,11 @@
     <p>댓글을 작성하려면 <a th:href="@{/login}">로그인</a>해주세요.</p>
 </div>
 
-<div class="button-group">
+<div class="button-group" sec:authorize="isAuthenticated()">
     <a th:href="@{/board}" class="button list-btn">게시글 목록으로</a>
 
     <!-- 🔄 작성자만 수정/삭제 버튼 표시 -->
-    <div th:if="${currentUser.id == post.user.id}">
+    <div th:if="${userDetails != null and userDetails.user.id == post.user.id}">
         <a th:href="@{/board/{id}/edit(id=${post.id})}" class="button edit-btn">게시글 수정</a>
         <form th:action="@{/board/{id}/delete(id=${post.id})}" method="post" style="display: inline;">
             <input type="hidden" name="_method" value="DELETE" />

@@ -7,6 +7,7 @@ import spring_study.spring_study.domain.Post;
 import spring_study.spring_study.domain.User;
 import spring_study.spring_study.exception.ForbiddenException;
 import spring_study.spring_study.exception.PostNotFoundException;
+import spring_study.spring_study.exception.UserNotFoundException;
 import spring_study.spring_study.repository.PostRepository;
 import spring_study.spring_study.repository.UserRepository;
 
@@ -20,6 +21,15 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+
+    private void requireOwner(Post post, Long userId) {
+        if (post.getUser() == null) {
+            throw new UserNotFoundException();
+        }
+        if (!post.getUser().getId().equals(userId)) {
+            throw new ForbiddenException();
+        }
+    }
 
     // 전체 게시글 조회
     public List<Post> getAllPosts() {
@@ -73,11 +83,7 @@ public class PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFoundException::new);
 
-        if (!post.getUser().getId().equals(userId)) {
-            throw new ForbiddenException();
-
-        }
-
+        requireOwner(post, userId);
         post.delete();
     }
 }

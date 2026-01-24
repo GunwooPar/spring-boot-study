@@ -7,12 +7,12 @@ function escapeHtml(text) {
 }
 
 // 댓글 업데이트
-async function updateComment(postId, commentId, content, userId) {
+async function updateComment(postId, commentId, content) {
 
     // 이 객체는 데이터를 key=value&key2=value2 형식으로 자동으로 변환해줌(@RequestParam이 가장 받기 좋아하는 형식)
     const formData = new URLSearchParams();
     formData.append('content', content);
-    formData.append('userId', userId);
+    // userId는 서버에서 Spring Security로 자동 추출
 
     const response = await fetch(
         `/board/${postId}/comments/${commentId}`,
@@ -24,8 +24,8 @@ async function updateComment(postId, commentId, content, userId) {
     );
 
     if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message);
+        const errorText = await response.text();
+        throw new Error(errorText || '댓글 수정에 실패했습니다.');
     }
 
     const updatedCommentHtml = await response.text(); // 수정된 댓글 HTML 받음
@@ -58,10 +58,10 @@ async function loadComments(postId) {
 }
 
 // 댓글 작성
-async function createComment(postId, content, userId) {
+async function createComment(postId, content) {
     const formData = new URLSearchParams();
     formData.append('content', content);
-    formData.append('userId', userId);
+    // userId는 서버에서 Spring Security로 자동 추출
 
     const response = await fetch(`/board/${postId}/comments`, {
         method: 'POST',
@@ -70,8 +70,8 @@ async function createComment(postId, content, userId) {
     });
 
     if(!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message);
+        const errorText = await response.text();
+        throw new Error(errorText || '댓글 작성에 실패했습니다.');
     }
 
     const newCommentHtml = await response.text(); // 새 댓글 HTML만 받음
@@ -88,12 +88,12 @@ async function createComment(postId, content, userId) {
 
 
 
-async function deleteComment(postId, commentId, userId) {
+async function deleteComment(postId, commentId) {
     if (!confirm('정말 삭제하시겠습니까?')) return;
 
     try {
         const response = await fetch(
-            `/board/${postId}/comments/${commentId}?userId=${userId}`,
+            `/board/${postId}/comments/${commentId}`,
             { method: 'DELETE' }
         );
 
@@ -136,10 +136,9 @@ async function saveEdit(commentId) {
     const textarea = commentElement.querySelector('.edit-textarea');
     const newContent = textarea.value;
     const postId = getPostIdFromUrl(); // URL에서 postId 추출
-    const userId = document.getElementById('user-id').value;
 
     try {
-        await updateComment(postId, commentId, newContent, userId);
+        await updateComment(postId, commentId, newContent);
     } catch (error) {
         console.error('댓글 수정 실패:', error);
         alert('댓글 수정에 실패했습니다.');
@@ -174,11 +173,10 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault(); // 폼 기본 제출 방지
 
         const content = document.getElementById('comment-content').value;
-        const userId = document.getElementById('user-id').value;
         const postId = getPostIdFromUrl();
 
         try {
-            await createComment(postId, content, userId);
+            await createComment(postId, content);
         } catch (error) {
             console.log('댓글 작성 실패:', error);
             handleError(error, '댓글 작성에 실패했습니다.');
